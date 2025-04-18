@@ -46,7 +46,7 @@ Follow these steps to set up and run `NewsTweetBot` locally.
 
 1. **Clone the Repository**:
    ```sh
-   git clone https://github.com/yourusername/NewsTweetBot.git
+   git clone https://github.com/yaseen002/NewsTweetBot.git
    cd NewsTweetBot
    ```
 
