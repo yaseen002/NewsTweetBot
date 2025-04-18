@@ -2,7 +2,7 @@
 
 `NewsTweetBot` is a Flask-based web application that automates the process of fetching trending news, generating SEO-optimized tweets with AI-generated images, and posting them to Twitter/X at user-defined intervals. Built with a user-friendly dashboard, secure API configuration, and SQLite database, it ensures non-recurring news and efficient social media automation.
 
-<span style="color: #007bff; font-weight: bold">Explore the live demo and full features at [yourwebsite.com](https://yourwebsite.com) (replace with your deployed URL).</span>
+<span style="color: #007bff; font-weight: bold">Explore the live demo.</span>
 
 ## Features
 - **Automated News Fetching**: Retrieves top U.S. headlines using the [News API](https://newsapi.org/).
