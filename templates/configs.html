@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">API Configurations</h2>
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">Configure API Keys</h5>
+    </div>
+    <div class="card-body">
+        <!-- Toggle Buttons -->
+        <div class="btn-group mb-4" role="group">
+            <button type="button" class="btn btn-toggle active" data-form="gemini-form">Gemini API</button>
+            <button type="button" class="btn btn-toggle" data-form="twitter-form">Twitter API</button>
+            <button type="button" class="btn btn-toggle" data-form="news-form">News API</button>
+            <button type="button" class="btn btn-toggle" data-form="stability-form">Stability AI API</button>
+        </div>
+
+        <!-- Gemini API Form -->
+        <div id="gemini-form" class="api-form">
+            <form method="POST">
+                <input type="hidden" name="form_id" value="gemini-form">
+                <div class="mb-3">
+                    <label for="gemini_key" class="form-label">Gemini API Key</label>
+                    {% if api_keys and api_keys.gemini_key %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="gemini_key_display" value="{{ masked_keys.gemini_key }}" disabled>
+                        <button type="button" class="btn btn-primary" onclick="toggleEdit('gemini_key')">Edit</button>
+                    </div>
+                    <input type="text" class="form-control d-none" id="gemini_key" name="gemini_key" value="{{ api_keys.gemini_key }}" data-original-value="{{ api_keys.gemini_key }}">
+                    {% else %}
+                    <input type="text" class="form-control" id="gemini_key" name="gemini_key" placeholder="Enter Gemini API Key">
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Save Gemini API Key</button>
+            </form>
+        </div>
+
+        <!-- Twitter API Form -->
+        <div id="twitter-form" class="api-form d-none">
+            <form method="POST">
+                <input type="hidden" name="form_id" value="twitter-form">
+                <div class="mb-3">
+                    <label for="client_id" class="form-label">Twitter Client ID</label>
+                    {% if api_keys and api_keys.client_id %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="client_id_display" value="{{ masked_keys.client_id }}" disabled>
+                        <button type="button" class="btn btn-primary" onclick="toggleEdit('client_id')">Edit</button>
+                    </div>
+                    <input type="text" class="form-control d-none" id="client_id" name="client_id" value="{{ api_keys.client_id }}" data-original-value="{{ api_keys.client_id }}">
+                    {% else %}
+                    <input type="text" class="form-control" id="client_id" name="client_id" placeholder="Enter Twitter Client ID">
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="client_secret" class="form-label">Twitter Client Secret</label>
+                    {% if api_keys and api_keys.client_secret %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="client_secret_display" value="{{ masked_keys.client_secret }}" disabled>
+                        <button type="button" class="btn btn-primary" onclick="toggleEdit('client_secret')">Edit</button>
+                    </div>
+                    <input type="text" class="form-control d-none" id="client_secret" name="client_secret" value="{{ api_keys.client_secret }}" data-original-value="{{ api_keys.client_secret }}">
+                    {% else %}
+                    <input type="text" class="form-control" id="client_secret" name="client_secret" placeholder="Enter Twitter Client Secret">
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="consumer_key" class="form-label">Twitter Consumer Key</label>
+                    {% if api_keys and api_keys.consumer_key %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="consumer_key_display" value="{{ masked_keys.consumer_key }}" disabled>
+                        <button type="button" class="btn btn-primary" onclick="toggleEdit('consumer_key')">Edit</button>
+                    </div>
+                    <input type="text" class="form-control d-none" id="consumer_key" name="consumer_key" value="{{ api_keys.consumer_key }}" data-original-value="{{ api_keys.consumer_key }}">
+                    {% else %}
+                    <input type="text" class="form-control" id="consumer_key" name="consumer_key" placeholder="Enter Twitter Consumer Key">
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="consumer_secret" class="form-label">Twitter Consumer Secret</label>
+                    {% if api_keys and api_keys.consumer_secret %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="consumer_secret_display" value="{{ masked_keys.consumer_secret }}" disabled>
+                        <button type="button" class="btn btn-primary" onclick="toggleEdit('consumer_secret')">Edit</button>
+                    </div>
+                    <input type="text" class="form-control d-none" id="consumer_secret" name="consumer_secret" value="{{ api_keys.consumer_secret }}" data-original-value="{{ api_keys.consumer_secret }}">
+                    {% else %}
+                    <input type="text" class="form-control" id="consumer_secret" name="consumer_secret" placeholder="Enter Twitter Consumer Secret">
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Save Twitter API Keys</button>
+            </form>
+        </div>
+
+        <!-- News API Form -->
+        <div id="news-form" class="api-form d-none">
+            <form method="POST">
+                <input type="hidden" name="form_id" value="news-form">
+                <div class="mb-3">
+                    <label for="news_api_key" class="form-label">News API Key</label>
+                    {% if api_keys and api_keys.news_api_key %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="news_api_key_display" value="{{ masked_keys.news_api_key }}" disabled>
+                        <button type="button" class="btn btn-primary" onclick="toggleEdit('news_api_key')">Edit</button>
+                    </div>
+                    <input type="text" class="form-control d-none" id="news_api_key" name="news_api_key" value="{{ api_keys.news_api_key }}" data-original-value="{{ api_keys.news_api_key }}">
+                    {% else %}
+                    <input type="text" class="form-control" id="news_api_key" name="news_api_key" placeholder="Enter News API Key">
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Save News API Key</button>
+            </form>
+        </div>
+
+        <!-- Stability AI API Form -->
+        <div id="stability-form" class="api-form d-none">
+            <form method="POST">
+                <input type="hidden" name="form_id" value="stability-form">
+                <div class="mb-3">
+                    <label for="stability_api_key" class="form-label">Stability AI API Key</label>
+                    {% if api_keys and api_keys.stability_api_key %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="stability_api_key_display" value="{{ masked_keys.stability_api_key }}" disabled>
+                        <button type="button" class="btn btn-primary" onclick="toggleEdit('stability_api_key')">Edit</button>
+                    </div>
+                    <input type="text" class="form-control d-none" id="stability_api_key" name="stability_api_key" value="{{ api_keys.stability_api_key }}" data-original-value="{{ api_keys.stability_api_key }}">
+                    {% else %}
+                    <input type="text" class="form-control" id="stability_api_key" name="stability_api_key" placeholder="Enter Stability AI API Key">
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Save Stability AI API Key</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleEdit(fieldId) {
+    const displayInput = document.getElementById(fieldId + '_display');
+    const editInput = document.getElementById(fieldId);
+    const editButton = displayInput.parentElement.querySelector('button');
+    
+    if (editInput.classList.contains('d-none')) {
+        // Switch to edit mode
+        displayInput.classList.add('d-none');
+        editInput.classList.remove('d-none');
+        editButton.textContent = 'Cancel';
+        // Store original value if not already stored
+        if (!editInput.dataset.originalValue) {
+            editInput.dataset.originalValue = editInput.value;
+        }
+    } else {
+        // Switch back to display mode
+        editInput.classList.add('d-none');
+        displayInput.classList.remove('d-none');
+        editButton.textContent = 'Edit';
+        editInput.value = editInput.dataset.originalValue || ''; // Reset to original value
+    }
+}
+</script>
+{% endblock %}

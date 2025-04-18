@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Recent Tweets</h2>
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">All Tweets</h5>
+    </div>
+    <div class="card-body">
+        {% if tweets.items %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Content</th>
+                    <th>Image</th>
+                    <th>Posted At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tweet in tweets.items %}
+                <tr>
+                    <td>{{ tweet.content }}</td>
+                    <td>
+                        {% if tweet.image_path and tweet.image_path|length %}
+                        <img src="{{ url_for('static', filename=tweet.image_path) }}" alt="Tweet Image" class="tweet-img" style="max-width: 100px;">
+                        {% else %}
+                        No image
+                        {% endif %}
+                    </td>
+                    <td>{{ tweet.posted_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                {% if tweets.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('tweets', page=tweets.prev_num) }}">Previous</a>
+                </li>
+                {% endif %}
+                {% for page in tweets.iter_pages() %}
+                {% if page %}
+                <li class="page-item {% if page == tweets.page %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for('tweets', page=page) }}">{{ page }}</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+                {% endif %}
+                {% endfor %}
+                {% if tweets.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('tweets', page=tweets.next_num) }}">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% else %}
+        <p>No tweets found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

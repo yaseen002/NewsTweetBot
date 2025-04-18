@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Dashboard</h2>
+<div class="row g-4">
+    <!-- Tweet Scheduler Card -->
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0">Tweet Scheduler</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="interval" class="form-label">Tweet Interval (minutes)</label>
+                        <input type="number" class="form-control" id="interval" name="interval" value="30" min="1">
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" name="start" class="btn btn-success">Start</button>
+                        <button type="submit" name="stop" class="btn btn-danger">Stop</button>
+                    </div>
+                </form>
+                <div class="mt-3">
+                    <p><strong>Status:</strong> 
+                        {% if session.get('scheduler_running') %}
+                        Running
+                        <div class="progress mt-2">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+                        </div>
+                        {% else %}
+                        Stopped
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Card -->
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0">Analytics</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Total Tweets Posted:</strong> {{ total_tweets }}</p>
+                <p><strong>Last Tweet:</strong> 
+                    {% if last_tweet %}
+                    {{ last_tweet.posted_at.strftime('%Y-%m-%d %H:%M:%S') }}
+                    {% else %}
+                    No tweets yet
+                    {% endif %}
+                </p>
+                <p><strong>Average Tweets/Day:</strong> {{ '%.2f' % avg_tweets_per_day }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Tweets Card -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Recent Tweets</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_tweets %}
+                <div class="row">
+                    {% for tweet in recent_tweets %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <p>{{ tweet.content }}</p>
+                                {% if tweet.image_path and tweet.image_path|length %}
+                                <img src="{{ url_for('static', filename=tweet.image_path) }}" alt="Tweet Image" class="tweet-img">
+                                {% endif %}
+                                <small class="text-muted">Posted: {{ tweet.posted_at.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <a href="{{ url_for('tweets') }}" class="btn btn-primary">View All Tweets</a>
+                {% else %}
+                <p>No tweets yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+pip_log.txt
+
+# Virtual environment
+venv/
+.venv/
+
+# Instance folder (database)
+instance/
+
+# Temporary images
+static/images/*.webp
+
+# IDE files
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# System files
+.DS_Store
+Thumbs.db
